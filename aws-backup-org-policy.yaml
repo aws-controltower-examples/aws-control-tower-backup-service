@@ -408,28 +408,28 @@ Resources:
             Statement:
               - Effect: Allow
                 Action:
-                 - sts:AssumeRole
+                  - sts:AssumeRole
                 Resource: '*'
         - PolicyName: OrgPermissions
           PolicyDocument:
             Statement:
-             - Effect: Allow
-               Action:
-                - organizations:CreatePolicy
-                - organizations:DeletePolicy
-                - organizations:AttachPolicy
-                - organizations:DetachPolicy
-                - organizations:ListPolicies
-                - organizations:UpdatePolicy
-                - organizations:DescribePolicy
-                - organizations:ListTargetsForPolicy         
-               Resource: '*'
+              - Effect: Allow
+                Action:
+                  - organizations:CreatePolicy
+                  - organizations:DeletePolicy
+                  - organizations:AttachPolicy
+                  - organizations:DetachPolicy
+                  - organizations:ListPolicies
+                  - organizations:UpdatePolicy
+                  - organizations:DescribePolicy
+                  - organizations:ListTargetsForPolicy         
+                Resource: '*'
         - PolicyName: S3Permissions
           PolicyDocument:
-                Statement:
-                - Effect: Allow
-                  Action:
-                    - s3:*
-                  Resource:
-                    !Sub arn:aws:s3:::${rLocalCacheBucket}/*
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:*
+                Resource:
+                  !Sub arn:aws:s3:::${rLocalCacheBucket}/*
 ...
