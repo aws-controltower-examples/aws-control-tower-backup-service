@@ -95,7 +95,7 @@ Resources:
             Resource: "*"
             Condition:
               StringEquals:
-                "kms:ViaService": !Sub "backup.amazonaws.com"
+                "kms:ViaService": !Sub backup.amazonaws.com
           -
             Sid: Allow alias creation during setup
             Effect: "Allow"

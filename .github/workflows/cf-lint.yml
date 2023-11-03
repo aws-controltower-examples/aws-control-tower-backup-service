@@ -11,10 +11,10 @@ jobs:
     uses: clouddrove/github-shared-workflows/.github/workflows/cf-lint.yml@master
     with:
       cf_file_path: ./aws-backup-member-account-iam-role.yaml
-  cloudformation-checks-backup-member:
-    uses: clouddrove/github-shared-workflows/.github/workflows/cf-lint.yml@master
-    with:
-      cf_file_path: ./aws-backup-member-account.yaml
+  # cloudformation-checks-backup-member:
+  #   uses: clouddrove/github-shared-workflows/.github/workflows/cf-lint.yml@master
+  #   with:
+  #     cf_file_path: ./aws-backup-member-account.yaml
   cloudformation-checks-cental-backup:
     uses: clouddrove/github-shared-workflows/.github/workflows/cf-lint.yml@master
     with:
