@@ -39,11 +39,8 @@ We eat, drink, sleep and most importantly love **DevOps**. We are working toward
 
 The AWS Control Tower backup-service Enabler is an AWS CloudFormation template designed to simplify the process of enabling and configuring AWS backup-service in the security account of an AWS Control Tower environment. This template creates essential AWS resources, such as IAM roles, Lambda functions, and SNS topics, to automate the backup-service setup based on your specified parameters.
 
-## Prerequisites
 
-Before you proceed, ensure that you have the following prerequisites in place:
-
-### Prerequisites for Deploying the Solution
+## Prerequisites for Deploying the Solution
 
 Before deploying the solution, make sure you have the following prerequisites in place:
 
@@ -90,16 +87,18 @@ With these prerequisites in place, you can proceed to deploy the solution.
 
 | Name | Description | Type | Default |
 |------|-------------|------| ------- |
-| pOrganizationId | The AWS account ID of the Security(Audit) Account. | String | `n/a` |
-| pOrgbackupAccounts|        |             |        |
-| ExcludedAccounts| A comma-separated list of AWS account IDs to be excluded from backup-service configuration. | String | `""` |
-| OrganizationId | AWS Organizations ID for the Control Tower. | String | n/a |
-| S3SourceBucket | The S3 bucket containing the backup-service Lambda deployment package. | String | `""` |
-| RoleToAssume | The IAM role to be assumed in child accounts to enable backup-service. | String | `AWSControlTowerExecution` |
+| pOrgbackupAccounts | The AWS master account OUnitId req. for org stack | String | `ou-XXXX-XXXXXX` |
+| pMemberAccountBackupVault | AWS This is the name of the member account backup vaults. | String | n/a |
+| pMemberBackupVaultName | AWS This is the name of the member account backup vaults. | String | n/a |
+| pCentralBackupVaultArn | The AWS central backup ARN | String | `""` |
+| pOrganizationId | The AWS master account OrgID| String | `o-XXXXXXXXXX` |
+| pCrossAccountBackupRole | This is the IAM role name for the cross-account backup role that carries out the backup activities | String | n/a |
+
 
 ## Deployment
 
 Follow these steps to deploy the AWS Control Tower backup-service Enabler template:
+  **(Follow Steps as below for stackset deployment)**
 
 ### **Step 1: Opt in to use AWS Backup**
 
@@ -234,8 +233,8 @@ The AWS Central Backup service combines these components to provide a comprehens
 
 
 ## Reference links:
-![Deployment Steps](https://aws.amazon.com/blogs/storage/automate-centralized-backup-at-scale-across-aws-services-using-aws-backup/)
-![Central-Backup setup](https://aws.amazon.com/blogs/storage/centralized-cross-account-management-with-cross-region-copy-using-aws-backup/)
+[Deployment Steps](https://aws.amazon.com/blogs/storage/automate-centralized-backup-at-scale-across-aws-services-using-aws-backup/)
+[Central-Backup setup](https://aws.amazon.com/blogs/storage/centralized-cross-account-management-with-cross-region-copy-using-aws-backup/)
 
 ## Feedback 
 If you come accross a bug or have any feedback, please log it in our [issue tracker](https://github.com/aws-controltower-examples/aws-control-tower-backup-service-enabler/issues), or feel free to drop us an email at [hello@clouddrove.com](mailto:hello@clouddrove.com).
