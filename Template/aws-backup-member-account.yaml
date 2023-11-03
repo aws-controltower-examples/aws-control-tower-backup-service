@@ -52,11 +52,11 @@ Parameters:
   pTagKey1:
     Type: String
     Description: This is the tag key to assign to resources.
-    Default: 'project'
+    Default: 'deployedby'
   pTagValue1:
     Type: String
     Description: This is the tag value to assign to resources.
-    Default: 'aws-backup-demo'
+    Default: 'stackset'
 Resources:
   rMemberAccountBackupKey:
     Type: AWS::KMS::Key
