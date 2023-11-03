@@ -119,6 +119,8 @@ If this is your first time using the AWS Backup service, you must opt in to use 
 
 5. Ensure that you have enabled your supported workloads in the Service opt-in.
 
+6. Ensure that you have enabled delegate account also.
+
 ### **Step 2: Deploy IAM Roles Across Member Accounts**
 
 In this step, you will deploy IAM roles to a single Region across each member account using AWS CloudFormation StackSets. Follow the steps below to create the backup IAM role in each of your member accounts. If you want to learn more about CloudFormation StackSets, you can refer to the blog post on using AWS CloudFormation StackSets for multiple accounts in an AWS Organization.

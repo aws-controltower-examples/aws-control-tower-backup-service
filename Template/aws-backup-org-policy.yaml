@@ -1,14 +1,15 @@
+---
 AWSTemplateFormatVersion: '2010-09-09'
 Description: This template deploys Backup Policies required to manage backups at an organization level.
 
 Parameters:
-  pOrgbackupAccounts: 
+  pOrgbackupAccounts:
     Description: A CSV list of the AWS accounts or OUs to attach backup policies. 
     Type: CommaDelimitedList
-    Default: ""  
+    Default: ""
   pCrossAccountBackupRole:
     Description: This is the IAM role name for the cross-account backup role that carries out the backup activities.
-    Type: String   
+    Type: String  
   pBackupScheduler1:
     Description: The CRON or rate job to initiate backup jobs in sample backup policy 1. For example, cron(0 0/1 ? * * *).
     Type: String
@@ -19,39 +20,39 @@ Parameters:
     Default: "cron(0 0/1 ? * * *)"
   pMemberAccountBackupVault:
     AllowedPattern: ^[a-zA-Z0-9\-\_\.]{1,50}$
-    ConstraintDescription: The name of the member account Backup vaults. (Name is case sensitive). 
+    ConstraintDescription: The name of the member account Backup vaults. (Name is case sensitive).
     Type: String
   pCentralBackupVaultArn:
     Type: String
     Description: This is the ARN of the centralized account backup vault.
   pBackupTagKey1:
-    Type: String 
+    Type: String
     Description: The tag key 1 to automatically assign AWS Backup supported resources to a backup plan across the member accounts. 
     Default: 'project'
   pBackupTagValue1:
-    Type: String 
+    Type: String
     Description: The tag value 1 to automatically assign AWS Backup supported resources to a backup plan across the member accounts.
     Default: 'aws-backup-demo'
   pBackupTagKey2:
-    Type: String 
+    Type: String
     Description: The tag key 2 to automatically assign AWS Backup supported resources to a backup plan across the member accounts.
     Default: 'environment'
   pBackupTagValue2:
-    Type: String 
+    Type: String
     Description: The tag value 2 to automatically assign AWS Backup supported resources to a backup plan across the member accounts.
     Default: 'aws-dev'
   pTagKey:
-    Type: String 
+    Type: String
     Description: This is the tag key to assign to resources created by CloudFormation.
     Default: 'project'
   pTagValue:
-    Type: String 
+    Type: String
     Description: This is the tag value to assign to resources created by CloudFormation.
     Default: 'aws-backup'
 
   pStackBinaryURL:
     Description: The URL for the StackBinary Zip File
-    Type: String    
+    Type: String   
     Default: 'https://awsstorageblogresources.s3.us-west-2.amazonaws.com/ioawssecbackupblog/OrgPolicyCustomResourceManager.zip'
 Resources:
   rLocalCacheBucket:
@@ -73,7 +74,7 @@ Resources:
     Type: Custom::CleanupBucket
     Properties:
       ServiceToken: !GetAtt rGlobalCfnCodeReplicatorLambda.Arn
-      S3BucketToCleanup: !Ref rLocalCacheBucket  
+      S3BucketToCleanup: !Ref rLocalCacheBucket
 
   CopySolutionToLocalCacheBucket:
     Type: Custom::ReplicateSolutionBinaries
@@ -90,7 +91,7 @@ Resources:
             - id: W89
               reason: "NA"
             - id: W92
-              reason: "NA"    
+              reason: "NA"  
     Properties:
       Code:
         ZipFile: |-
@@ -350,16 +351,16 @@ Resources:
             ]
       Variables:
           - BACKUP_ROLE: !Ref "pCrossAccountBackupRole"
-          - VAULT_NAME: !Ref pMemberAccountBackupVault
-          - TAG_KEY_1 : !Ref "pBackupTagKey1"
+          - VAULT_NAME: !Ref "pMemberAccountBackupVault"
+          - TAG_KEY_1: !Ref "pBackupTagKey1"
           - TAG_VALUE_1 : !Ref "pBackupTagValue1"
-          - TAG_KEY_2 : !Ref "pBackupTagKey2"
-          - TAG_VALUE_2 : !Ref "pBackupTagValue2"
-          - TAG_KEY : !Ref "pTagKey"
-          - TAG_VALUE : !Ref "pTagValue"
-          - SCHEDULE_EXPRESSION_1 : !Ref "pBackupScheduler1"
-          - SCHEDULE_EXPRESSION_2 : !Ref "pBackupScheduler2"
-          - CENTRAL_VAULT_ARN : !Ref "pCentralBackupVaultArn"
+          - TAG_KEY_2: !Ref "pBackupTagKey2"
+          - TAG_VALUE_2: !Ref "pBackupTagValue2"
+          - TAG_KEY: !Ref "pTagKey"
+          - TAG_VALUE: !Ref "pTagValue"
+          - SCHEDULE_EXPRESSION_1: !Ref "pBackupScheduler1"
+          - SCHEDULE_EXPRESSION_2: !Ref "pBackupScheduler2"
+          - CENTRAL_VAULT_ARN: !Ref "pCentralBackupVaultArn"
       ServiceToken: !GetAtt OrgPolicyCustomResourceManager.Arn
       
   
@@ -402,7 +403,7 @@ Resources:
           - 'sts:AssumeRole'
       Path: '/'
       ManagedPolicyArns:
-      - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
       Policies:
       - PolicyName: AssumeOrgRole
         PolicyDocument:
@@ -433,3 +434,4 @@ Resources:
               - s3:*
             Resource: 
               !Sub arn:aws:s3:::${rLocalCacheBucket}/*
+...

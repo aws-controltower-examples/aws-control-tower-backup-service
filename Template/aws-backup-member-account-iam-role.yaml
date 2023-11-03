@@ -1,3 +1,4 @@
+---
 AWSTemplateFormatVersion: '2010-09-09'
 Description: >
   This template creates the Backup IAM role required for the automated centralized backup at scale in AWS Organizations using AWS Backup.
@@ -53,8 +54,7 @@ Resources:
       Tags:
         - Key: !Ref pTagKey1
           Value: !Ref pTagValue1
-  
 Outputs:
   oOrgAccountBackupRole:
     Value: !Ref rOrgAccountBackupRole
-
+...
