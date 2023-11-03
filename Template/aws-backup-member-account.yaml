@@ -106,7 +106,7 @@ Resources:
             Condition:
               StringEquals:
                 "kms:CallerAccount": !Sub ${AWS::AccountId}
-                "kms:ViaService": !Sub "cloudformation.${AWS::Region}.amazonaws.com"  
+                "kms:ViaService": !Sub "cloudformation.${AWS::Region}.amazonaws.com"
       Tags:
         - Key: !Ref pTagKey1
           Value: !Ref pTagValue1
