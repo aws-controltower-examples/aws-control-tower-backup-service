@@ -68,7 +68,7 @@ Resources:
         BlockPublicAcls: true
         BlockPublicPolicy: true
         IgnorePublicAcls: true
-        RestrictPublicBuckets: true 
+        RestrictPublicBuckets: true
 
   CleanupLocalCacheBucketOnDelete:
     Type: Custom::CleanupBucket
@@ -103,7 +103,7 @@ Resources:
           import os
           import shutil
           from urllib.parse import urlparse
-          physical_resource_id = 'GlobalCfnCodeReplicator' 
+          physical_resource_id = 'GlobalCfnCodeReplicator'
           def process_bucket_cleanup_request(bucket_name):
               print(f"process_bucket_cleanup_request starting for bucket_name : {bucket_name}")
               s3 = boto3.resource('s3')
@@ -116,11 +116,11 @@ Resources:
             with c.request('GET',url, preload_content=False) as resp, open(save_path, 'wb') as out_file:
                 shutil.copyfileobj(resp, out_file)
             resp.release_conn()
- 
+
           def lambda_handler(event, context):
             try:
                 print(f'Handling event : {event}')
-                request_type = event.get('RequestType')         
+                request_type = event.get('RequestType')
                 solution_url = event['ResourceProperties'].get('SolutionURL')
                 solution_bucket = event['ResourceProperties'].get('SolutionDestinationBucket')
                 response_data = {
@@ -235,7 +235,7 @@ Resources:
                                       }
                                   }
                               }
-                            }                  
+                            }             
                           },
                           "backup_plan_tags": {
                               "TAG_KEY": {
@@ -316,7 +316,7 @@ Resources:
                                       }
                                   }
                               }
-                            }                         
+                            }                   
                           },
                           "backup_plan_tags": {
                               "TAG_KEY": {
@@ -353,7 +353,7 @@ Resources:
         - BACKUP_ROLE: !Ref "pCrossAccountBackupRole"
         - VAULT_NAME: !Ref "pMemberAccountBackupVault"
         - TAG_KEY_1: !Ref "pBackupTagKey1"
-        - TAG_VALUE_1 : !Ref "pBackupTagValue1"
+        - TAG_VALUE_1: !Ref "pBackupTagValue1"
         - TAG_KEY_2: !Ref "pBackupTagKey2"
         - TAG_VALUE_2: !Ref "pBackupTagValue2"
         - TAG_KEY: !Ref "pTagKey"
@@ -362,7 +362,7 @@ Resources:
         - SCHEDULE_EXPRESSION_2: !Ref "pBackupScheduler2"
         - CENTRAL_VAULT_ARN: !Ref "pCentralBackupVaultArn"
       ServiceToken: !GetAtt OrgPolicyCustomResourceManager.Arn
-      
+
   OrgPolicyCustomResourceManager:
     Type: AWS::Lambda::Function
     DependsOn: CopySolutionToLocalCacheBucket
@@ -394,11 +394,11 @@ Resources:
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
-        - Effect: Allow
-          Principal:
-            Service: 'lambda.amazonaws.com'
-          Action:
-            - 'sts:AssumeRole'
+          - Effect: Allow
+            Principal:
+              Service: 'lambda.amazonaws.com'
+            Action:
+              - 'sts:AssumeRole'
       Path: '/'
       ManagedPolicyArns:
         - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
@@ -407,22 +407,22 @@ Resources:
         PolicyDocument:
           Statement:
           - Effect: Allow
-          Action:
-            - sts:AssumeRole
-          Resource: '*'
+            Action:
+              - sts:AssumeRole
+            Resource: '*'
       - PolicyName: OrgPermissions
         PolicyDocument:
           Statement:
           - Effect: Allow
             Action:
-                - organizations:CreatePolicy
-                - organizations:DeletePolicy
-                - organizations:AttachPolicy
-                - organizations:DetachPolicy
-                - organizations:ListPolicies
-                - organizations:UpdatePolicy
-                - organizations:DescribePolicy
-                - organizations:ListTargetsForPolicy              
+              - organizations:CreatePolicy
+              - organizations:DeletePolicy
+              - organizations:AttachPolicy
+              - organizations:DetachPolicy
+              - organizations:ListPolicies
+              - organizations:UpdatePolicy
+              - organizations:DescribePolicy
+              - organizations:ListTargetsForPolicy              
             Resource: '*'
       - PolicyName: S3Permissions
         PolicyDocument:
