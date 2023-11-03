@@ -10,17 +10,17 @@ jobs:
   cloudformation-checks-IAM-role:
     uses: clouddrove/github-shared-workflows/.github/workflows/cf-lint.yml@master
     with:
-      cf_file_path: ./Template/aws-backup-member-account-iam-role.yaml
+      cf_file_path: ./aws-backup-member-account-iam-role.yaml
   cloudformation-checks-backup-member:
     uses: clouddrove/github-shared-workflows/.github/workflows/cf-lint.yml@master
     with:
-      cf_file_path: ./Template/aws-backup-member-account.yaml
+      cf_file_path: ./aws-backup-member-account.yaml
   cloudformation-checks-cental-backup:
     uses: clouddrove/github-shared-workflows/.github/workflows/cf-lint.yml@master
     with:
-      cf_file_path: ./Template/aws-backup-central-backup-account.yaml\
+      cf_file_path: ./aws-backup-central-backup-account.yaml
   cloudformation-checks-org-policy:
     uses: clouddrove/github-shared-workflows/.github/workflows/cf-lint.yml@master
     with:
-      cf_file_path: ./Template/aws-backup-org-policy.yaml
+      cf_file_path: ./aws-backup-org-policy.yaml
 ...

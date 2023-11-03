@@ -235,7 +235,7 @@ Resources:
                                       }
                                   }
                               }
-                            }    
+                            }
                           },
                           "backup_plan_tags": {
                               "TAG_KEY": {
@@ -316,7 +316,7 @@ Resources:
                                       }
                                   }
                               }
-                            }  
+                            }
                           },
                           "backup_plan_tags": {
                               "TAG_KEY": {
@@ -406,15 +406,15 @@ Resources:
         - PolicyName: AssumeOrgRole
           PolicyDocument:
             Statement:
-            - Effect: Allow
-              Action:
-                - sts:AssumeRole
-              Resource: '*'
+              - Effect: Allow
+                Action:
+                 - sts:AssumeRole
+                Resource: '*'
         - PolicyName: OrgPermissions
           PolicyDocument:
             Statement:
-            - Effect: Allow
-              Action:
+             - Effect: Allow
+               Action:
                 - organizations:CreatePolicy
                 - organizations:DeletePolicy
                 - organizations:AttachPolicy
@@ -423,13 +423,13 @@ Resources:
                 - organizations:UpdatePolicy
                 - organizations:DescribePolicy
                 - organizations:ListTargetsForPolicy         
-              Resource: '*'
+               Resource: '*'
         - PolicyName: S3Permissions
           PolicyDocument:
-              Statement:
-              - Effect: Allow
-                Action:
-                  - s3:*
-                Resource:
-                  !Sub arn:aws:s3:::${rLocalCacheBucket}/*
+                Statement:
+                - Effect: Allow
+                  Action:
+                    - s3:*
+                  Resource:
+                    !Sub arn:aws:s3:::${rLocalCacheBucket}/*
 ...
