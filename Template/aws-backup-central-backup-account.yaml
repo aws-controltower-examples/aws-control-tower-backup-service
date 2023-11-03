@@ -51,9 +51,11 @@ Parameters:
   pTagKey1:
     Type: String
     Description: This is the tag key to assign to resources.
+    Default: "deployedby"
   pTagValue1:
     Type: String
     Description: This is the tag value to assign to resources.
+    Default: "stackset"
 Resources:
   rOrgAccountBackupRoleCentral:
     Type: "AWS::IAM::Role"
