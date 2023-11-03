@@ -43,11 +43,48 @@ The AWS Control Tower backup-service Enabler is an AWS CloudFormation template d
 
 Before you proceed, ensure that you have the following prerequisites in place:
 
-1. **AWS Control Tower Environment**: You must have an AWS Control Tower environment set up.
+### Prerequisites for Deploying the Solution
 
-2. **AWS Access**: You should have AWS CLI or AWS Management Console access with sufficient permissions to deploy CloudFormation templates.
+Before deploying the solution, make sure you have the following prerequisites in place:
 
-3. **Security Account**: Know the AWS account ID of your Security Account.
+1. **AWS Control Tower Environment**: 
+   - You must have an AWS Control Tower environment set up.
+
+2. **AWS Organizations Accounts:**
+   - You must have four AWS accounts that belong to the same AWS Organizations. Please refer to the documentation on AWS Organizations for more details.
+   - Ensure you have placed these accounts within an organization hierarchy.
+
+3. **AWS Organizations Information:**
+   - Obtain the following IDs from the AWS Organizations console:
+     - AWS Organizations root ID
+     - Account ID
+     - Organization ID
+     - Refer to the AWS Organizations documentation for further information on how to find these IDs.
+
+4. **Setup Supported Resource:**
+   - Set up a supported resource in the member accounts to demonstrate the backup functionality. For example, you can use an Amazon EBS volume.
+   - Tag each of your EBS volumes with the following tags:
+     - Key: "project"
+     - Value: "aws-backup-demo"
+     - Alternatively, you can use the following tags:
+       - Key: "environment"
+       - Value: "aws-dev"
+   - For more information on creating an Amazon EBS volume, refer to the relevant AWS documentation.
+
+5. **Basic Knowledge:**
+   - Ensure you have a basic understanding of the following AWS services and concepts:
+     - CloudFormation StackSets
+     - Lambda functions
+     - Python
+
+6. **AWS CLI Setup:**
+   - Install the latest version of the AWS Command Line Interface (CLI) or use the AWS CloudShell.
+   - If using the AWS CLI, make sure that you have configured profiles with credentials for the management account in the following files:
+     - `~/.aws/credentials`
+   - For more information on creating CLI configuration files, consult the AWS CLI user guide.
+
+With these prerequisites in place, you can proceed to deploy the solution.
+
 
 ## Parameters
 
@@ -64,17 +101,53 @@ Before you proceed, ensure that you have the following prerequisites in place:
 
 Follow these steps to deploy the AWS Control Tower backup-service Enabler template:
 
-1. Sign in to the AWS Management Console or use the AWS CLI.
+### **Step 1: Opt in to use AWS Backup**
 
-2. Navigate to the AWS CloudFormation service.
+If this is your first time using the AWS Backup service, you must opt in to use AWS Backup and cross-account management features using the AWS Management Console or CLI.
 
-3. Create a new CloudFormation stack.
+**To opt in using AWS Management Console (recommended):**
 
-4. Upload this template or provide the S3 URL where it is located.
+1. Open the AWS Backup console in your management account.
 
-5. Fill in the required parameters as described above.
+2. From the left navigation pane, choose "Settings."
 
-6. Review and confirm the stack creation.
+3. Then, choose "Enable" for the following options:
+   - Backup policies
+   - Cross-account monitoring
+   - Cross-account backup
+
+4. The status of the cross-account management settings would change to "Enabled."
+
+5. Ensure that you have enabled your supported workloads in the Service opt-in.
+
+### **Step 2: Deploy IAM Roles Across Member Accounts**
+
+In this step, you will deploy IAM roles to a single Region across each member account using AWS CloudFormation StackSets. Follow the steps below to create the backup IAM role in each of your member accounts. If you want to learn more about CloudFormation StackSets, you can refer to the blog post on using AWS CloudFormation StackSets for multiple accounts in an AWS Organization.
+
+1. **Log in to your management account** and select the appropriate AWS Region, preferably your AWS Organizations home Region.
+
+2. **Navigate to the AWS CloudFormation StackSets console** in the AWS Region being used and create a new stackset using the `aws-backup-member-account-iam-role.yaml` template.
+
+3. Enter the **StackSet name**. In our example, we use "Backup-Member-Accounts-Role."
+
+4. Under the **Parameters section**, enter values for the following parameters:
+   - `pCrossAccountBackupRole`: This is the IAM role name for the cross-account backup role that carries out the backup activities.
+   - `pTagKey1`: This is the tag key to assign to resources.
+   - `pTagValue1`: This is the tag value to assign to resources.
+
+5. On the **Permissions section**, select the Self-service permissions. We choose the following settings:
+   - IAM role name: AWSControlTowerStackSetRole
+   - IAM execution role name: AWSControlTowerExecution
+
+6. On the **Set deployment options**, choose "Deploy stacks in organizational units" and provide the OU id consisting of your member accounts. You can also deploy the stackset to specific account id of your member accounts.
+
+7. On the **Specify Regions section**, select a single AWS Region where you want to deploy the member account's IAM roles from the drop-down list. Note: You only need to deploy the backup IAM role to a single Region since IAM roles are global entities. Refer to the [AWS IAM FAQ](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-identity-based-policies-structures.html) for further information.
+
+8. On the **Review page**, validate the parameters and check the box "I acknowledge that AWS CloudFormation might create IAM resource with custom names." Then select "Submit."
+
+9. On the **Stack Instances**, validate the stackset deployment and wait for the status to change from an "OUTDATED" to a "CURRENT" stack instance.
+
+
 
 ## Functionality
 
@@ -87,6 +160,10 @@ The CloudFormation template creates the following AWS resources:
 - **SNS Topic:** An SNS topic used for communication between AWS Control Tower and the Lambda function.
 
 - **CloudWatch Event Rules:** Scheduled rules to trigger the Lambda function periodically and when AWS accounts are created or managed via AWS
+
+## Reference links:
+![Deployment Steps](https://aws.amazon.com/blogs/storage/automate-centralized-backup-at-scale-across-aws-services-using-aws-backup/)
+![Central-Backup setup](https://aws.amazon.com/blogs/storage/centralized-cross-account-management-with-cross-region-copy-using-aws-backup/)
 
 ## Feedback 
 If you come accross a bug or have any feedback, please log it in our [issue tracker](https://github.com/aws-controltower-examples/aws-control-tower-backup-service-enabler/issues), or feel free to drop us an email at [hello@clouddrove.com](mailto:hello@clouddrove.com).
