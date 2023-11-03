@@ -235,7 +235,7 @@ Resources:
                                       }
                                   }
                               }
-                            }             
+                            }       
                           },
                           "backup_plan_tags": {
                               "TAG_KEY": {
@@ -316,7 +316,7 @@ Resources:
                                       }
                                   }
                               }
-                            }                   
+                            }            
                           },
                           "backup_plan_tags": {
                               "TAG_KEY": {
@@ -403,13 +403,13 @@ Resources:
       ManagedPolicyArns:
         - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
       Policies:
-      - PolicyName: AssumeOrgRole
-        PolicyDocument:
-          Statement:
-          - Effect: Allow
-            Action:
-              - sts:AssumeRole
-            Resource: '*'
+        - PolicyName: AssumeOrgRole
+          PolicyDocument:
+            Statement:
+            - Effect: Allow
+              Action:
+                - sts:AssumeRole
+              Resource: '*'
       - PolicyName: OrgPermissions
         PolicyDocument:
           Statement:
@@ -422,14 +422,14 @@ Resources:
               - organizations:ListPolicies
               - organizations:UpdatePolicy
               - organizations:DescribePolicy
-              - organizations:ListTargetsForPolicy              
+              - organizations:ListTargetsForPolicy         
             Resource: '*'
       - PolicyName: S3Permissions
         PolicyDocument:
-          Statement:
-          - Effect: Allow
-            Action:
-              - s3:*
-            Resource:
-              !Sub arn:aws:s3:::${rLocalCacheBucket}/*
+            Statement:
+            - Effect: Allow
+              Action:
+                - s3:*
+              Resource:
+                !Sub arn:aws:s3:::${rLocalCacheBucket}/*
 ...
