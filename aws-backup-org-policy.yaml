@@ -422,7 +422,7 @@ Resources:
                   - organizations:ListPolicies
                   - organizations:UpdatePolicy
                   - organizations:DescribePolicy
-                  - organizations:ListTargetsForPolicy     
+                  - organizations:ListTargetsForPolicy
                 Resource: '*'
         - PolicyName: S3Permissions
           PolicyDocument:
