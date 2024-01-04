@@ -1,3 +1,4 @@
+---
 AWSTemplateFormatVersion: '2010-09-09'
 Description: >
   This template creates the Backup KMS Key and Vault required for the automated centralized backup at scale in AWS Organizations using AWS Backup.
@@ -17,7 +18,7 @@ Metadata:
           - pTagValue1
     ParameterLabels:
       pCrossAccountBackupRole:
-        default: Enter the name of the Backup IAM Role 
+        default: Enter the name of the Backup IAM Role
       pBackupKeyAlias:
         default: Name of the AWS Backup KMS key Alias
       pMemberBackupVaultName:
@@ -52,9 +53,11 @@ Parameters:
   pTagKey1:
     Type: String
     Description: This is the tag key to assign to resources.
+    Default: 'deployedby'
   pTagValue1:
     Type: String
     Description: This is the tag value to assign to resources.
+    Default: 'stackset'
 Resources:
   rMemberAccountBackupKey:
     Type: AWS::KMS::Key
@@ -92,7 +95,7 @@ Resources:
             Resource: "*"
             Condition:
               StringEquals:
-                "kms:ViaService": !Sub "backup.amazonaws.com"
+                "kms:ViaService": backup.amazonaws.com
           -
             Sid: Allow alias creation during setup
             Effect: "Allow"
@@ -103,7 +106,7 @@ Resources:
             Condition:
               StringEquals:
                 "kms:CallerAccount": !Sub ${AWS::AccountId}
-                "kms:ViaService": !Sub "cloudformation.${AWS::Region}.amazonaws.com"        
+                "kms:ViaService": !Sub "cloudformation.${AWS::Region}.amazonaws.com"
       Tags:
         - Key: !Ref pTagKey1
           Value: !Ref pTagValue1
@@ -134,4 +137,4 @@ Outputs:
     Value: !Ref rMemberAccountBackupVault
   oMemberAccountKMSKey:
     Value: !Ref rMemberAccountBackupKey
-
+...
